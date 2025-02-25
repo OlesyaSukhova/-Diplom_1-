@@ -1,24 +1,18 @@
+import pytest
+
 from database import Database
 
 
 class TestDatabase:
-    def test_available_buns(self):
+    @pytest.mark.parametrize("bun_name", ["black bun", "white bun", "red bun"])
+    def test_available_buns(self, bun_name):
         database = Database()
-        buns_to_search = ['black bun', 'white bun', 'red bun']
-        bun_not_found = False
-        for bun in database.available_buns():
-            if bun.get_name() not in buns_to_search:
-                bun_not_found = True
+        available_buns = [bun.get_name() for bun in database.available_buns()]
+        assert bun_name in available_buns
 
-        assert bun_not_found == False
-
-    def test_available_ingredients(self):
+    @pytest.mark.parametrize("ingredient_name", ['hot sauce', 'sour cream', 'chili sauce', 'cutlet', 'dinosaur', 'sausage'])
+    def test_available_ingredients(self, ingredient_name):
         database = Database()
-        ingredients_to_search = ['hot sauce', 'sour cream', 'chili sauce', 'cutlet', 'dinosaur', 'sausage']
-        ingredients_not_found = False
-        for ingredient in database.available_ingredients():
-            if ingredient.get_name() not in ingredients_to_search:
-                ingredients_not_found = True
-
-        assert ingredients_not_found == False
-
+        available_ingredients = [ingredient.get_name() for ingredient in database.available_ingredients()]
+        assert ingredient_name in available_ingredients
+       
